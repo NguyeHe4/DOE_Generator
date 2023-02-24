@@ -20,9 +20,7 @@ params = dict()
 func_params = inspect.signature(eval(f"build.{design}")).parameters
 DOE = pd.DataFrame()
 st.write(function.__doc__)
-st.write(func_params)
 for param in list(func_params):
-    st.write(param)
     if param == "d":
         continue
     else:
