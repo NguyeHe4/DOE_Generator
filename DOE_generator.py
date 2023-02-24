@@ -22,7 +22,7 @@ for i in range(1, num_factors + 1):
         if len(levels) > 0 and levels[0] == "["
         else eval("[" + levels + "]")
     )
-    if type(factors[f][0]) == str:
+    if len(factors[f][0]) > 0 and type(factors[f][0]) == str:
         try:
             factors[f] = np.float(factors[f])
         except:
