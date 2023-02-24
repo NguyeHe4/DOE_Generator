@@ -30,7 +30,7 @@ for i in range(1, num_factors + 1):
 
 function = eval(f"build.{design}")
 params = dict()
-func_params = inspect.signature(eval(f"build.{design}")).parameters
+func_params = inspect.signature(function).parameters
 DOE = pd.DataFrame()
 st.write(function.__doc__)
 for param in list(func_params):
@@ -39,7 +39,14 @@ for param in list(func_params):
     else:
         param_input = st.text_input(param)
         if param_input != "":
-            params[param] = param_input
+            try:
+                params[param] = (
+                    int(param_input)
+                    if int(param_input) % param_input == 0
+                    else float(param_input)
+                )
+            except:
+                params[param] = param_input
 
 
 def to_excel(df):
