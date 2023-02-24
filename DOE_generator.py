@@ -37,7 +37,7 @@ for param in list(func_params):
     if param == "d":
         continue
     elif param == "num_samples":
-        param_input = st.number_input(param, step=1)
+        param_input = st.number_input(param, step=1, min_value=1)
         params[param] = param_input
     else:
         param_input = st.text_input(param)
