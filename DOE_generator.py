@@ -37,7 +37,7 @@ for param in list(func_params):
     if param == "d":
         continue
     elif param == "num_samples":
-        param_input = st.number_input(param)
+        param_input = st.number_input(param, step=1)
         params[param] = param_input
     else:
         param_input = st.text_input(param)
@@ -66,6 +66,8 @@ def to_excel(df):
 
 
 if factors != {}:
+    print(factors)
+    print(params)
     DOE = eval("function(factors, **params)")
     DOE.loc["End"] = [""] * len(DOE.columns)
     DOE = DOE.reset_index()
