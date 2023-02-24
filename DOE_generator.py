@@ -6,7 +6,7 @@ from io import BytesIO
 import datetime
 import numpy as np
 
-# build.lhs({"Pressure":[50,70], "Temperature":[25,50], "Flow": [1000,2000]}, num_samples=12)
+# build.lhs({"Pressure":[50,70], "Temperature":[25,50], "Flow": [1000,2000], "Flow2": [1000,2000]}, num_samples=None)
 
 doe_designs = [d for d in dir(build) if "build" not in d and "__" not in d]
 design = st.selectbox(
@@ -37,7 +37,7 @@ for param in list(func_params):
     if param == "d":
         continue
     elif param == "num_samples":
-        param_input = st.number_input(param, step=1, min_value=1)
+        param_input = st.number_input(param, value=num_factors, step=1, min_value=1)
         params[param] = param_input
     else:
         param_input = st.text_input(param)
