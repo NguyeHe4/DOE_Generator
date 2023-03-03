@@ -72,8 +72,8 @@ if factors != {}:
     # DOE.loc["End"] = [""] * len(DOE.columns)
     DOE = DOE.reset_index()
     DOE.rename(columns={DOE.columns[0]: "Run"}, inplace=True)
-    edited_DOE = st.experimental_data_editor(DOE, num_rows="dynamic", disabled=False)
-    DOE_xlsx = to_excel(edited_DOE)
+    DOE = st.experimental_data_editor(DOE, num_rows="dynamic", disabled=False)
+    DOE_xlsx = to_excel(DOE)
     st.download_button(
         "Download DOE",
         data=DOE_xlsx,
