@@ -69,14 +69,16 @@ if factors != {}:
     print(factors)
     print(params)
     DOE = eval("function(factors, **params)")
-    DOE.loc["End"] = [""] * len(DOE.columns)
+    # DOE.loc["End"] = [""] * len(DOE.columns)
     DOE = DOE.reset_index()
     DOE.rename(columns={DOE.columns[0]: "Run"}, inplace=True)
-    st.experimental_data_editor(DOE, num_rows="dynamic")
-    DOE_xlsx = to_excel(DOE)
+    edited_DOE = st.experimental_data_editor(DOE, num_rows="dynamic", disabled=False)
+    DOE_xlsx = to_excel(edited_DOE)
     st.download_button(
         "Download DOE",
         data=DOE_xlsx,
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         file_name=f"{design}_{datetime.datetime.now().strftime(r'%Y-%m-%d %H-%M-%S')}.xlsx",
     )
+
+
