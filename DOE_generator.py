@@ -31,7 +31,7 @@ for i in range(1, num_factors + 1):
 function = eval(f"build.{design}")
 params = dict()
 func_params = inspect.signature(function).parameters
-DOE = pd.DataFrame()
+
 st.write(function.__doc__)
 for param in list(func_params):
     if param == "d":
@@ -64,22 +64,24 @@ def to_excel(df):
     processed_data = output.getvalue()
     return processed_data
 
+# DOE = pd.DataFrame()
 
 if factors != {}:
     print(factors)
     print(params)
     if st.button("Generate DOE"):
-        DOE = eval("function(factors, **params)")
-    # DOE.loc["End"] = [""] * len(DOE.columns)
-    DOE = DOE.reset_index()
-    DOE.rename(columns={DOE.columns[0]: "Run"}, inplace=True)
-    DOE = st.experimental_data_editor(DOE, num_rows="dynamic", disabled=False)
-    # DOE_xlsx = to_excel(DOE)
-    # st.download_button(
-    #     "Download DOE",
-    #     data=DOE_xlsx,
-    #     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    #     file_name=f"{design}_{datetime.datetime.now().strftime(r'%Y-%m-%d %H-%M-%S')}.xlsx",
-    # )
+        st.session_state["DOE"] = eval("function(factors, **params)")
+        st.session_state["DOE"] = st.session_state["DOE"].reset_index()
+        st.session_state["DOE"].rename(columns={st.session_state["DOE"].columns[0]: "Run"}, inplace=True)
+    st.session_state["DOE"] = st.session_state["DOE"].astype(str)
+    edited_DOE = st.experimental_data_editor(st.session_state["DOE"], num_rows="dynamic", disabled=False)
+    # edited_DOE.loc["End"] = [""] * len(edited_DOE.columns)
+    DOE_xlsx = to_excel(edited_DOE)
+    st.download_button(
+        "Download DOE",
+        data=DOE_xlsx,
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        file_name=f"{design}_{datetime.datetime.now().strftime(r'%Y-%m-%d %H-%M-%S')}.xlsx",
+    )
 
-
+    
